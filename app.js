@@ -12,10 +12,10 @@ const mimeTypes = {
   "css":"text/css",
 }
 
-http.createServer(function(req,res) {
+http.createServer(function(req, res) {
   var uri = url.parse(req.url).pathname;
-  var filename = path.join(process.cwd(), unescape(uri));
-  console.log('Loading' + uri);
+  var fileName = path.join(process.cwd(), unescape(uri));
+  console.log('Loading ' + uri);
   var stats;
   try{
     stats = fs.lstatSync(fileName);
@@ -30,7 +30,7 @@ http.createServer(function(req,res) {
     var mimeType = mimeTypes[path.extname(fileName).split(".").reverse()[0]];
     res.writeHead(200, {'Content-type': mimeType});
 
-    var fileStream = fs.createReadStream(filename);
+    var fileStream = fs.createReadStream(fileName);
     fileStream.pipe(res);
   } else if(stats.isDirectory()) {
     res.writeHead(302, {
